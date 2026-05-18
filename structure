@@ -1,0 +1,22 @@
+HelloAGit/
+├─ metrics/                     # Python package
+│  ├─ __init__.py
+│  ├─ datasets.py               # Loading/splitting data, synthetic bias examples
+│  ├─ metrics_core.py           # Core fairness metrics
+│  ├─ mitigation.py             # Bias mitigation / improvement measures
+│  ├─ evaluation.py             # End-to-end evaluation pipeline
+│  └─ plotting.py               # Optional: metric visualisations
+├─ examples/
+│  ├─ demo_notebook.ipynb       # Clean, minimal demo
+│  └─ demo_script.py            # CLI-style example
+├─ tests/
+│  ├─ test_metrics_core.py
+│  ├─ test_mitigation.py
+│  └─ test_e2e.py
+├─ pyproject.toml               # Packaging + dependencies
+├─ README.md
+├─ LICENSE
+├─ .gitignore
+└─ .github/
+   └─ workflows/
+      └─ ci.yml                 # Tests + lint on push/PR
