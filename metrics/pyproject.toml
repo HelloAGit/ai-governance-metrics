@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helloag-metrics"
+version = "0.1.0"
+description = "AI governance fairness metrics, bias detection, and mitigation utilities."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Anup", email = "you@example.com" }
+]
+dependencies = [
+  "pandas",
+  "numpy",
+  "scikit-learn",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "ruff"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["metrics"]
