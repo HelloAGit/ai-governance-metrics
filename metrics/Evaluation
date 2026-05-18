@@ -1,0 +1,28 @@
+# examples/demo_script.py
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from metrics import demographic_parity, equal_opportunity
+from metrics.mitigation import train_baseline_model
+
+def main():
+    # Example: load your dataset here
+    df = pd.read_csv("data/example.csv")
+    y = df["label"]
+    s = df["sensitive_attribute"]
+    X = df.drop(columns=["label", "sensitive_attribute"])
+
+    X_train, X_test, y_train, y_test, s_train, s_test = train_test_split(
+        X, y, s, test_size=0.3, random_state=42, stratify=y
+    )
+
+    model = train_baseline_model(X_train, y_train)
+    y_pred = (model.predict_proba(X_test)[:, 1] > 0.5).astype(int)
+
+    dp = demographic_parity(y_pred, s_test)
+    eo = equal_opportunity(y_test, y_pred, s_test)
+
+    print(f"Demographic parity gap: {dp:.3f}")
+    print(f"Equal opportunity gap: {eo:.3f}")
+
+if __name__ == "__main__":
+    main()
