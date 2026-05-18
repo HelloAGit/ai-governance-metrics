@@ -1,0 +1,15 @@
+# tests/test_metrics_core.py
+import pandas as pd
+from metrics import demographic_parity, equal_opportunity
+
+def test_demographic_parity_zero_when_balanced():
+    y_pred = pd.Series([1, 0, 1, 0])
+    s = pd.Series([0, 0, 1, 1])
+    assert demographic_parity(y_pred, s) == 0.0
+
+def test_equal_opportunity_nonzero_when_group_differs():
+    y_true = pd.Series([1, 1, 1, 1])
+    y_pred = pd.Series([1, 0, 1, 0])
+    s = pd.Series([0, 0, 1, 1])
+    gap = equal_opportunity(y_true, y_pred, s)
+    assert gap > 0
