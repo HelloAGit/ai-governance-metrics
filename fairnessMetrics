@@ -1,0 +1,27 @@
+# metrics/metrics_core.py
+import numpy as np
+import pandas as pd
+
+def demographic_parity(y_pred: pd.Series, sensitive: pd.Series) -> float:
+    """
+    Difference in positive prediction rates between sensitive groups.
+    """
+    rates = (
+        pd.concat({"y_pred": y_pred, "s": sensitive}, axis=1)
+        .groupby("s")["y_pred"]
+        .mean()
+    )
+    return float(rates.max() - rates.min())
+
+
+def equal_opportunity(y_true: pd.Series, y_pred: pd.Series, sensitive: pd.Series) -> float:
+    """
+    Difference in true positive rates between sensitive groups.
+    """
+    df = pd.concat({"y_true": y_true, "y_pred": y_pred, "s": sensitive}, axis=1)
+    tprs = (
+        df[df["y_true"] == 1]
+        .groupby("s")
+        .apply(lambda g: (g["y_pred"] == 1).mean())
+    )
+    return float(tprs.max() - tprs.min())
